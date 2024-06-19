@@ -13,24 +13,14 @@ const ActivityPage = () => {
     const [data, setData] = useState<Activity[]>([]);
     const [type, setType] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await instance.get('/api/activities');
-            setData(res.data);
-        };
-
-        fetchData();
-    }, []);
+    const fetchData = async (type: string) => {
+        const url = type !== '' ? `/api/activities/api-key?type=${type}` : '/api/activities/api-key';
+        const res = await instance.get(url);
+        setData(res.data);
+    }
 
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await instance.get(`/api/activities?type=${type}`);
-            setData(res.data);
-        };
-
-        if (type !== null) {
-            fetchData();
-        }
+        fetchData(type);
     }, [type]);
 
     return (
