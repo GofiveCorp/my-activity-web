@@ -1,51 +1,62 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, Input } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
-import instance from '@/app/_utils/axios';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, Input } from '@mui/material'
+import { ChangeEvent, useState } from 'react'
+import instance from '@/app/_utils/axios'
+import { useRouter } from 'next/navigation'
 
-export default function UploadDialog({ open, handleClose, id }: { open: boolean, handleClose: () => void, id: string}) {
-  const [file, setFile] = useState<File | null>(null);
+export default function UploadDialog({
+  open,
+  handleClose,
+  id
+}: {
+  open: boolean
+  handleClose: () => void
+  id: string
+}) {
+  const router = useRouter()
+  const [file, setFile] = useState<File | null>(null)
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFile(event.target.files[0]);
+      setFile(event.target.files[0])
     }
-  };
+  }
 
   const handleUpload = async () => {
     if (file) {
-      const formData = new FormData();
-      formData.append('imageFile', file);
+      const formData = new FormData()
+      formData.append('imageFile', file)
 
       try {
         const res = await instance.post(`/api/activities/${id}/upload-image`, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        if (res.status === 200) {
+          router.refresh()
+        }
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error('Error uploading file:', error)
       }
     }
-    handleClose();
-  };
+    handleClose()
+  }
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Upload New Image</DialogTitle>
       <DialogContent>
-        <Box component="form">
-          <Input
-            type="file"
-            onChange={handleFileChange}
-            fullWidth
-            inputProps={{ accept: 'image/png, image/jpeg' }}
-          />
-        </Box>
+        <Input type='file' onChange={handleFileChange} fullWidth inputProps={{ accept: 'image/png, image/jpeg' }} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant="outlined">Close</Button>
-        <Button onClick={handleUpload} variant="outlined">Upload</Button>
+        <Button onClick={handleClose} variant='outlined'>
+          Close
+        </Button>
+        <Button onClick={handleUpload} variant='outlined'>
+          Upload
+        </Button>
       </DialogActions>
     </Dialog>
-  );
+  )
 }

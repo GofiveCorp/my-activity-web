@@ -1,3 +1,3 @@
-import ActivityPage from "./(routes)/activity/page";
+import ActivityPage from './(routes)/activity/page'
 
-export default ActivityPage;
+export default ActivityPage

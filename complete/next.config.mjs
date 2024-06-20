@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: false,
-    env: {
-        API_KEY: process.env.API_KEY,
-        API_URL: process.env.API_URL,
-    }
-};
+  reactStrictMode: false,
+  env: {
+    API_KEY: process.env.API_KEY,
+    API_URL: process.env.API_URL
+  }
+}
 
-export default nextConfig;
+export default nextConfig

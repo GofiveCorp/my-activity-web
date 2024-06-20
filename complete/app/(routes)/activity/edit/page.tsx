@@ -1,15 +1,15 @@
 'use client'
 
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
-function defaultEditPage () {
-    const router = useRouter()
-    useEffect(() => {
-        router.push('/')
-    }, [])
+function DefaultEditPage() {
+  const router = useRouter()
+  useEffect(() => {
+    router.push('/')
+  }, [])
 
-    return <></>
+  return <></>
 }
 
-export default defaultEditPage
+export default DefaultEditPage
