@@ -1,7 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, Input } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Input } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import instance from '@/app/_utils/axios'
 import { useRouter } from 'next/navigation'
+import { uploadImage } from '../_utils/fetchActivity'
 
 export default function UploadDialog({
   open,
@@ -26,18 +26,10 @@ export default function UploadDialog({
       const formData = new FormData()
       formData.append('imageFile', file)
 
-      try {
-        const res = await instance.post(`/api/activities/${id}/upload-image`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+      const res = await uploadImage(id, formData)
 
-        if (res.status === 200) {
-          router.refresh()
-        }
-      } catch (error) {
-        console.error('Error uploading file:', error)
+      if (res && res.status === 200) {
+        location.reload()
       }
     }
     handleClose()

@@ -12,8 +12,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  Button,
-  Divider
+  Button
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -26,11 +25,10 @@ import ScheduleIcon from '@mui/icons-material/Schedule'
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral'
 import { Activity } from '@/app/_types/activity'
 import { useRouter } from 'next/navigation'
-import { getDuration } from '@/app/_utils/getDuration'
 import UploadDialog from '@/app/_components/image-upload-dialog'
-import instance from '@/app/_utils/axios'
 import Image from 'next/image'
 import ActivityDetailItem from '@/app/_components/activity-detail-item'
+import { deleteActivity, getActivityById } from '@/app/_utils/fetchActivity'
 
 const ActivityDetail = ({ params }: { params: { slug: string } }) => {
   const router = useRouter()
@@ -57,17 +55,17 @@ const ActivityDetail = ({ params }: { params: { slug: string } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await instance.get(`/api/activities/${slug}`)
-      setActivity(res.data)
+      const res = await getActivityById(slug)
+      setActivity(res?.data)
     }
 
     fetchData()
   }, [])
 
   async function handleDelete() {
-    const res = await instance.delete(`/api/activities/${slug}`)
+    const res = await deleteActivity(slug)
 
-    if (res.status === 204) {
+    if (res && res.status === 204) {
       router.push('/')
     }
 

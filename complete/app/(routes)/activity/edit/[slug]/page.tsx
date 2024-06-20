@@ -3,8 +3,8 @@
 import { Box } from '@mui/material'
 import ActivityForm from '@/app/_components/activity-form'
 import { useEffect, useState } from 'react'
-import instance from '@/app/_utils/axios'
 import { Activity } from '@/app/_types/activity'
+import { getActivityById } from '@/app/_utils/fetchActivity'
 
 const EditActivityPage = ({ params }: { params: { slug: string } }) => {
   const { slug } = params
@@ -12,8 +12,8 @@ const EditActivityPage = ({ params }: { params: { slug: string } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await instance.get(`/api/activities/${slug}`)
-      setActivity(res.data)
+      const res = await getActivityById(slug)
+      setActivity(res?.data)
     }
 
     fetchData()

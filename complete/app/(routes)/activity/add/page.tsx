@@ -1,5 +1,3 @@
-'use client'
-
 import { Box } from '@mui/material'
 import ActivityForm from '@/app/_components/activity-form'
 

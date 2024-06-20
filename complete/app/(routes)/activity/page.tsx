@@ -4,8 +4,8 @@ import { Box, Button, Card, CardContent, ToggleButton, ToggleButtonGroup, Typogr
 import { useEffect, useState, MouseEvent } from 'react'
 import ActivityCard from '../../_components/activity-card'
 import { Activity } from '@/app/_types/activity'
-import instance from '@/app/_utils/axios'
 import { useRouter } from 'next/navigation'
+import { getActivityByType } from '@/app/_utils/fetchActivity'
 
 const ActivityPage = () => {
   const router = useRouter()
@@ -14,9 +14,8 @@ const ActivityPage = () => {
   const [type, setType] = useState('')
 
   const fetchData = async (type: string) => {
-    const url = type !== '' ? `/api/activities/api-key?type=${type}` : '/api/activities/api-key'
-    const res = await instance.get(url)
-    setData(res.data)
+    const res = await getActivityByType(type)
+    setData(res?.data)
   }
 
   useEffect(() => {

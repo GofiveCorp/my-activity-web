@@ -13,19 +13,44 @@ type Props = {
   data: Activity[]
 }
 
+function getDefaultImage(type: string) {
+  switch (type) {
+    case 'Running':
+      return 'running.png'
+    case 'Cycling':
+      return 'cycling.png'
+    case 'Swimming':
+      return 'swimming.png'
+    case 'Walking':
+      return 'walking.png'
+    case 'Hiking':
+      return 'hiking.png'
+  }
+}
+
 export default function ActivityCard({ data }: Props) {
   const router = useRouter()
 
   return (
     <Grid container spacing={2}>
       {data.map((activity: Activity) => (
-        <Grid item xs={6} sm={4} md={2} key={activity.id}>
+        <Grid item xs={7} sm={4} md={3} xl={2} key={activity.id}>
           <Card sx={{ maxWidth: 345 }}>
             <CardMedia
-              sx={{ height: 140 }}
-              image={activity.image ? 'data:image/png;base64,' + activity.image : '/images/bg.jpg'}
+              sx={{
+                height: 140,
+                backgroundColor: activity.type === 'Others' ? '#f5f5f5' : 'transparent'
+              }}
+              image={
+                activity.image
+                  ? `data:image/png;base64,${activity.image}`
+                  : activity.type !== 'Others'
+                    ? `/images/${getDefaultImage(activity.type)}`
+                    : undefined
+              }
               title='Activity Image'
             />
+
             <CardContent>
               <Typography gutterBottom variant='h5'>
                 {activity.title}

@@ -4,21 +4,12 @@ import { Box, Button, Card, CardContent, Grid, Paper, TextField, Typography } fr
 import { useState, useEffect } from 'react'
 import DateTimePicker from './datetime-picker'
 import FeelingRating from './feeling-rating'
-import instance from '@/app/_utils/axios'
 import { useRouter } from 'next/navigation'
+import { Activity } from '../_types/activity'
+import { createActivity, updateActivity } from '../_utils/fetchActivity'
 
 interface ActivityFormProps {
-  initialData?: {
-    id: string
-    title: string
-    description: string
-    type: string
-    startTime: string
-    endTime: string
-    date: string
-    duration: { hours: number; minutes: number }
-    barometer: string
-  }
+  initialData?: Activity
   isEdit?: boolean
 }
 
@@ -60,7 +51,7 @@ const ActivityForm = ({ initialData, isEdit = false }: ActivityFormProps) => {
   }
 
   async function handleAddActivity() {
-    const data = {
+    const data: Activity = {
       title: title === '' ? 'Running' : title,
       description: description,
       type: activityType,
@@ -71,15 +62,15 @@ const ActivityForm = ({ initialData, isEdit = false }: ActivityFormProps) => {
       barometer: feeling
     }
 
-    const result = await instance.post('/api/activities', data)
+    const result = await createActivity(data)
 
-    if (result.status === 204) {
+    if (result && result.status === 204) {
       router.push('/activity')
     }
   }
 
   async function handleEditActivity() {
-    const data = {
+    const data: Activity = {
       title: title === '' ? 'Running' : title,
       description: description,
       type: activityType,
@@ -90,9 +81,8 @@ const ActivityForm = ({ initialData, isEdit = false }: ActivityFormProps) => {
       barometer: feeling
     }
 
-    const result = await instance.put(`/api/activities/${initialData?.id}`, data)
-
-    if (result.status === 204) {
+    const result = await updateActivity(initialData?.id ?? '', data)
+    if (result && result.status === 204) {
       router.push('/activity')
     }
   }
