@@ -4,7 +4,6 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import AdbIcon from '@mui/icons-material/Adb'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { useRouter } from 'next/navigation'
@@ -16,7 +15,6 @@ const Navbar = () => {
     <AppBar position='static'>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor: 'pointer' }} />
           <Typography
             variant='h6'
             noWrap
