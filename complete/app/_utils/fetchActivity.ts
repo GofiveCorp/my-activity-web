@@ -39,7 +39,7 @@ export async function getActivityByType(type: string) {
   try {
     if (type === null) return
 
-    const res = await instance.get(`/api/activities?type=${type}`)
+    const res = await instance.get(`/api/activities/api-key?type=${type}`)
 
     return res
   } catch (error) {
