@@ -30,7 +30,7 @@ const ActivityPage = () => {
             Activities
           </Typography>
           <ActivityToggleButton type={type} setType={setType} />
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             <ActivityCard data={data} />
           ) : (
             <>
